@@ -25,6 +25,7 @@ mkdir -p data/chest_xray
 # scripts
 mkdir -p scripts
 touch scripts/metrics.py
+touch scripts/losses.py
 touch scripts/extract_embeddings.py
 touch scripts/finetune_medclip.py
 touch scripts/compare_embeddings.py

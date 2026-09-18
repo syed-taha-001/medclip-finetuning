@@ -1,0 +1,8 @@
+data/raw/
+!data/raw/kermany/*/.gitkeep
+checkpoints/*/run_*/
+checkpoints/*/exp_*/*.pt
+__pycache__/
+*.pyc
+.pytest_cache/
+pretrained/

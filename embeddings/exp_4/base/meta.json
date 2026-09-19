@@ -1,0 +1,20 @@
+{
+  "checkpoint": "checkpoints/base/model_weights.pt",
+  "split": "data/experiments/exp_4/split.json",
+  "subset_requested": "d1_prime",
+  "exp_name": "exp_4",
+  "run_id": "base",
+  "device": "cpu",
+  "batch_size": 32,
+  "preprocessing": "PIL.Image.convert('L') -> MedCLIPProcessor(images=..., return_tensors='pt')",
+  "model": "MedCLIPModel(vision_cls=MedCLIPVisionModelViT)",
+  "extracted_at_utc": "2026-09-19T16:22:24Z",
+  "subsets_written": {
+    "d1_prime": {
+      "n_samples": 4098,
+      "embedding_dim": 512,
+      "n_normal": 1107,
+      "n_pneumonia": 2991
+    }
+  }
+}

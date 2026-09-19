@@ -65,6 +65,7 @@ import numpy as np
 import torch
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
+from tqdm import tqdm
 
 try:
     from medclip import MedCLIPModel, MedCLIPProcessor, MedCLIPVisionModelViT
@@ -221,14 +222,29 @@ def extract(model, rel_paths, processor, repo_root, device, batch_size, num_work
     ds = ImagePathDataset(repo_root, rel_paths, processor)
     dl = DataLoader(ds, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
+    n_batches = len(dl)
     all_z, all_labels, all_paths = [], [], []
+    start = time.time()
     with torch.no_grad():
-        for pixel_values, labels, paths in dl:
+        for i, (pixel_values, labels, paths) in enumerate(
+            tqdm(dl, total=n_batches, desc="extracting", unit="batch")
+        ):
             pixel_values = pixel_values.to(device)
             z = get_image_embeddings(model, pixel_values)
             all_z.append(z.cpu().numpy().astype(np.float32))
             all_labels.append(labels.numpy().astype(np.int64))
             all_paths.extend(paths)
+
+            if device == "cpu" and i == 4:
+                # After a few batches, print a rough ETA so a slow CPU run
+                # doesn't look identical to a genuine hang.
+                elapsed = time.time() - start
+                per_batch = elapsed / (i + 1)
+                eta_min = (per_batch * (n_batches - i - 1)) / 60
+                tqdm.write(
+                    f"[extract_embeddings] CPU device — rough ETA for this "
+                    f"subset: ~{eta_min:.1f} min remaining"
+                )
 
     Z = np.concatenate(all_z, axis=0)
     labels_arr = np.concatenate(all_labels, axis=0)

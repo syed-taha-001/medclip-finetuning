@@ -99,20 +99,29 @@ def set_seed(seed: int) -> None:
 # split.json handling
 # --------------------------------------------------------------------------
 
-def load_paths(entries):
+def load_paths(entries, repo_root: str):
     """split.json entries may be plain path strings or dicts with a 'path'
     key. Either way, labels are inferred from the path itself later, never
-    trusted from any label field that might also be present here."""
+    trusted from any label field that might also be present here.
+
+    Paths inside split.json are relative to the repo root (wherever
+    create_splits.py was originally run from), NOT relative to this
+    script's own location or to split.json's own directory. Resolving
+    against --repo-root means this script works the same whether it's
+    invoked from scripts/ or from the repo root."""
     paths = []
     for e in entries:
         if isinstance(e, str):
-            paths.append(e)
+            raw = e
         elif isinstance(e, dict):
             if "path" not in e:
                 raise ValueError(f"split.json entry missing 'path' key: {e}")
-            paths.append(e["path"])
+            raw = e["path"]
         else:
             raise ValueError(f"Unrecognized split.json entry type: {type(e)}")
+
+        p = Path(raw)
+        paths.append(str(p if p.is_absolute() else Path(repo_root) / p))
     return paths
 
 
@@ -251,6 +260,7 @@ def append_run_log(log_path: str, **row) -> None:
 def parse_args():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--split-json", required=True, help="Path to this experiment's split.json (must have d1_prime/d1/meta keys)")
+    p.add_argument("--repo-root", default=".", help="Root that image paths inside split.json are relative to. Defaults to the current directory -- pass this explicitly if you run the script from scripts/ rather than the repo root, e.g. --repo-root ..")
     p.add_argument("--exp-name", required=True, help="e.g. exp_1/exp_2/exp_3/exp_4 -- used for checkpoints/<exp-name>/")
     p.add_argument("--base-checkpoint", default="checkpoints/base/model_weights.pt")
     p.add_argument("--lambda1", type=float, required=True, help="Weight on L_drift (Eq. 5). 0.0 = naive baseline component.")
@@ -290,8 +300,8 @@ def main():
         if key not in split:
             raise KeyError(f"split.json at {args.split_json} is missing required key '{key}'")
 
-    train_paths = load_paths(split["d1_prime"])
-    eval_paths = load_paths(split["d1"])
+    train_paths = load_paths(split["d1_prime"], args.repo_root)
+    eval_paths = load_paths(split["d1"], args.repo_root)
     print(f"[finetune_medclip] d1_prime (train): {len(train_paths)} images")
     print(f"[finetune_medclip] d1 (held-out eval): {len(eval_paths)} images")
 

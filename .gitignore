@@ -7,3 +7,8 @@ __pycache__/
 .pytest_cache/
 pretrained/
 checkpoints/base/*.pt
+embeddings/**/*.npy
+embeddings/**/*.npz
+runs_log.csv
+scripts/checkpoints/
+logs/

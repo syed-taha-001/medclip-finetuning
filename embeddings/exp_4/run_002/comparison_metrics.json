@@ -1,0 +1,59 @@
+{
+  "exp_name": "exp_4",
+  "run_name": "run_002",
+  "z_pre_path": "embeddings/exp_4/base/z_d1.npy",
+  "z_post_path": "embeddings/exp_4/run_002/z_d1.npy",
+  "n_samples": 1758,
+  "drift": {
+    "overall_mean": 0.14662787318229675,
+    "overall_std": 0.04037269577383995,
+    "normal_mean": 0.18463683128356934,
+    "normal_std": 0.04506466165184975,
+    "normal_n": 476,
+    "pneumonia_mean": 0.1325153410434723,
+    "pneumonia_std": 0.027304720133543015,
+    "pneumonia_n": 1282
+  },
+  "neighborhood_stability": {
+    "5": {
+      "overall_mean": 0.5397042093287827,
+      "overall_std": 0.23879752585701733,
+      "normal_mean": 0.40756302521008403,
+      "normal_std": 0.22140106346125005,
+      "normal_n": 476,
+      "pneumonia_mean": 0.588767550702028,
+      "pneumonia_std": 0.22606698427842226,
+      "pneumonia_n": 1282
+    },
+    "10": {
+      "overall_mean": 0.5872013651877133,
+      "overall_std": 0.197455414988451,
+      "normal_mean": 0.4626050420168067,
+      "normal_std": 0.18547219857748573,
+      "normal_n": 476,
+      "pneumonia_mean": 0.6334633385335413,
+      "pneumonia_std": 0.1810750156494328,
+      "pneumonia_n": 1282
+    },
+    "20": {
+      "overall_mean": 0.630745164960182,
+      "overall_std": 0.17825587161282927,
+      "normal_mean": 0.5063025210084033,
+      "normal_std": 0.16296293101316267,
+      "normal_n": 476,
+      "pneumonia_mean": 0.6769500780031201,
+      "pneumonia_std": 0.16071062648161283,
+      "pneumonia_n": 1282
+    },
+    "50": {
+      "overall_mean": 0.6918885096700798,
+      "overall_std": 0.16109538675460292,
+      "normal_mean": 0.5915966386554622,
+      "normal_std": 0.1665365591541985,
+      "normal_n": 476,
+      "pneumonia_mean": 0.7291263650546022,
+      "pneumonia_std": 0.14201585662401578,
+      "pneumonia_n": 1282
+    }
+  }
+}

@@ -1,14 +1,14 @@
 {
-  "checkpoint": "../checkpoints/base/model_weights.pt",
+  "checkpoint": "../checkpoints/exp_4/run_001/model_weights.pt",
   "split": "../data/experiments/exp_4/split.json",
   "subset_requested": "d1",
   "exp_name": "exp_4",
-  "run_id": "base",
+  "run_id": "run_001",
   "device": "cuda",
   "batch_size": 32,
   "preprocessing": "PIL.Image.convert('L') -> MedCLIPProcessor(images=..., return_tensors='pt')",
   "model": "MedCLIPModel(vision_cls=MedCLIPVisionModelViT)",
-  "extracted_at_utc": "2026-09-22T05:03:31Z",
+  "extracted_at_utc": "2026-09-22T04:56:27Z",
   "subsets_written": {
     "d1": {
       "n_samples": 1758,

@@ -12,6 +12,7 @@ the same formulas comes later in the project).
 """
 
 import numpy as np
+from scipy.spatial.distance import cdist
 
 
 def drift_loss(z_pre: np.ndarray, z_post: np.ndarray) -> float:
@@ -97,7 +98,7 @@ def neighborhood_stability(z_pre: np.ndarray, z_post: np.ndarray, k: int) -> np.
         raise ValueError(f"k must be >= 1, got {k}.")
 
     def knn_indices(z):
-        dists = np.linalg.norm(z[:, None, :] - z[None, :, :], axis=-1)
+        dists = cdist(z, z)
         np.fill_diagonal(dists, np.inf)  # exclude self as its own neighbor
         return np.argsort(dists, axis=1)[:, :k]
 
